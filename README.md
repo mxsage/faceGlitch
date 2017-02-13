@@ -7,4 +7,4 @@ Glitch some faces
 * shaders are in bin/data/shaders
 * images should be placed in bin/data/faces folder
 
-![screencap.](screencap.jpg)
+![screencap.](screencap.png)
