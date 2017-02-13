@@ -1,0 +1,5 @@
+.DS_Store
+bin/faceGlitch*
+bin/data/faces/*
+*.swp
+
