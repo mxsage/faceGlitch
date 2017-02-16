@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "758AB66E96BE1B2571641F390D42215B81A3E908",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "758AB66E96BE1B2571641F390D42215B81A3E908" : 0,
+    "F4CCB893AFADB97238A965FD2F28717F1CAAE613" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "4B94B9A5-478E-4076-87C8-0F065137EFE1",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "758AB66E96BE1B2571641F390D42215B81A3E908" : "faceGlitch\/",
+    "F4CCB893AFADB97238A965FD2F28717F1CAAE613" : "..\/..\/addons\/ofxSyphon"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "faceGlitch",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "faceGlitch.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sjenson\/faceGlitch.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "758AB66E96BE1B2571641F390D42215B81A3E908"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/astellato\/ofxSyphon.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F4CCB893AFADB97238A965FD2F28717F1CAAE613"
+    }
+  ]
+}

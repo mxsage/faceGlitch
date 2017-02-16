@@ -25,38 +25,38 @@ void ofApp::setup(){
     s.internalformat    = GL_RGBA32F_ARB;
     s.useDepth			= false;
     fbo.allocate(s);
-    screen.allocate(s);
+    pong.allocate(s);
+    final.allocate(s);
     
+    /*
     fbo.begin();
     ofBackground(0, 0, 255);
     fbo.end();
     
-    screen.begin();
+    pong.begin();
     ofBackground(0, 0, 255);
-    screen.end();
-    
-    p.allocate(s.width, s.height, OF_IMAGE_COLOR);
+    pong.end();
+    */
     
     index = 0;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    if (ofGetFrameNum() % 60 > 50){
+    float slice_range = ofGetMouseX();
+    if (ofGetFrameNum() % 240 > 200){
         ofEnableAlphaBlending();
         fbo.begin();
-        //images[index]->draw(0,0);
         color_offset.begin();
-        color_offset.setUniform1f("random",
-                                      ofRandom(1));
+        color_offset.setUniform1f("random", ofRandom(1));
         color_offset.setUniform1i("time", ofGetFrameNum());
         
         
         for (int i = 0; i < ITERATIONS; i++){
             float x, y;
 
-            x = ofRandom(ofGetWidth()) - (SLICE_RANGE / 2.0);
-            y = ofRandom(SLICE_RANGE);
+            x = ofRandom(ofGetWidth()) - (slice_range / 2.0);
+            y = ofRandom(slice_range);
             images[index]->drawSubsection(x, 0, y, ofGetHeight(), x, 0);
             
             index++;
@@ -65,22 +65,32 @@ void ofApp::update(){
         color_offset.end();
         fbo.end();
     }
+   
     
-    screen.begin();
+    pong.begin();
     color_offset.begin();
     color_offset.setUniform1f("random", ofRandom(1));
     color_offset.setUniform1i("time", ofGetFrameNum());
     fbo.draw(0, 0);
     color_offset.end();
-    screen.end();
+    pong.end();
+    
+    final.begin();
+    pixel_shit.begin();
+    pixel_shit.setUniform1f("random", ofRandom(ofGetMouseY()/100.0));
+    pong.draw(0,0);
+    pixel_shit.end();
+    final.end();
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofSetWindowTitle(ofToString(ofGetFrameRate()));
-    screen.draw(0,0);
+    final.draw(0,0);
+    
     if (SYPHON){
-        individualTextureSyphonServer.publishTexture(&screen.getTexture());
+        individualTextureSyphonServer.publishTexture(&final.getTexture());
     }
 }
 
@@ -152,11 +162,10 @@ void ofApp::loadImages(void){
     for(int i = 0; i < Max((int) dir.size(), MAX_IMAGES); i++){
         ofImage* img = new ofImage();
         img->load(dir.getPath(i));
-        //img->resize(ofGetWidth(), ofGetHeight());
+        img->resize(ofGetWidth(), ofGetHeight());
         images.push_back(img);
         cout << "loading: " + ofToString(dir.getPath(i)) << endl;
     }
     cout << ofToString(images.size()) + " images loaded." << endl;
-    ofSetWindowShape(images[0]->getWidth(), images[0]->getHeight());
 }
 
