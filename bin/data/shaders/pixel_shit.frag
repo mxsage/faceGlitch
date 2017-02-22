@@ -9,5 +9,7 @@ void main (void)
 {
     vec4 col = texture2DRect(tex0,texCoordVarying + vec2(mod(texCoordVarying.x/1000.0, 10.0)-5.0,floor(sin(texCoordVarying.y*random+random*random))*random));
     
+    //col.a = mod(texCoordVarying.y, 2);
+    
     gl_FragColor = col;
 }

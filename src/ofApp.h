@@ -4,11 +4,12 @@
 #include "ofxSyphon.h"
 
 #define ITERATIONS 3
-#define SLICE_RANGE 420
 #define WIDTH 1920
 #define HEIGHT 1080
 #define MAX_IMAGES 20
-#define SYPHON 1
+#define SYPHON 0
+#define PERIOD 10
+#define CYCLES 30
 
 class ofApp : public ofBaseApp{
 
@@ -33,8 +34,8 @@ class ofApp : public ofBaseApp{
     
         ofFbo fbo, pong, final; // with alpha
         std::vector<ofImage*> images;
-        int index, slide_offset;
-    
+        int index, slide_offset, cycle_count;
+        float slice_range;
         ofShader color_offset, pixel_shit;
     
     	ofxSyphonServer individualTextureSyphonServer;

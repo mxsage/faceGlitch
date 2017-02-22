@@ -4,6 +4,8 @@
 void ofApp::setup(){
     ofSetFrameRate(60);
     ofDisableDepthTest();
+    
+    ofEnableAlphaBlending();
 
 
     if (SYPHON){
@@ -44,10 +46,19 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    float slice_range = ofGetMouseX();
-    if (ofGetFrameNum() % 120 > 100){
-        slide_offset = (int) ofRandom(HEIGHT);
-        ofEnableAlphaBlending();
+    if (ofGetFrameNum() %  PERIOD == 0){
+        if (cycle_count == 0){
+            slice_range = 2000;
+            slide_offset = (int) ofRandom(HEIGHT);
+        }
+        else {
+            slice_range = 3;
+        }
+        
+        cycle_count = (cycle_count + 1) % CYCLES;
+    }
+    
+    if (ofGetFrameNum() % PERIOD > PERIOD - 10){
         fbo.begin();
         color_offset.begin();
         color_offset.setUniform1f("random", 0.2);
@@ -61,8 +72,8 @@ void ofApp::update(){
             y = ofRandom(slice_range);
             images[index]->drawSubsection(x, 0, y, ofGetHeight(), x, 0);
             
-            index++;
-            index %= images.size();
+            //index++;
+            index = (int)ofRandom(images.size());
         }
         color_offset.end();
         fbo.end();
@@ -79,7 +90,7 @@ void ofApp::update(){
     
     final.begin();
     pixel_shit.begin();
-    pixel_shit.setUniform1f("random", fmod((ofGetFrameNum()/(slide_offset/10.0)+slide_offset), (float)HEIGHT));
+    pixel_shit.setUniform1f("random", fmod((ofGetFrameNum()/(slide_offset*10.7)+slide_offset), (float)HEIGHT));
     pong.draw(0,0);
     pixel_shit.end();
     final.end();
