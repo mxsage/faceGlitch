@@ -24,11 +24,13 @@ void ofApp::setup(){
     s.height			= ofGetHeight();
     s.internalformat    = GL_RGBA32F_ARB;
     s.useDepth			= false;
+    s.wrapModeVertical  = GL_MIRRORED_REPEAT_ARB;
+    s.wrapModeHorizontal= GL_MIRRORED_REPEAT_ARB;
+    
     fbo.allocate(s);
     pong.allocate(s);
     final.allocate(s);
     
-    /*
     fbo.begin();
     ofBackground(0, 0, 255);
     fbo.end();
@@ -36,7 +38,6 @@ void ofApp::setup(){
     pong.begin();
     ofBackground(0, 0, 255);
     pong.end();
-    */
     
     index = 0;
 }
@@ -44,11 +45,12 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     float slice_range = ofGetMouseX();
-    if (ofGetFrameNum() % 240 > 200){
+    if (ofGetFrameNum() % 120 > 100){
+        slide_offset = (int) ofRandom(HEIGHT);
         ofEnableAlphaBlending();
         fbo.begin();
         color_offset.begin();
-        color_offset.setUniform1f("random", ofRandom(1));
+        color_offset.setUniform1f("random", 0.2);
         color_offset.setUniform1i("time", ofGetFrameNum());
         
         
@@ -69,7 +71,7 @@ void ofApp::update(){
     
     pong.begin();
     color_offset.begin();
-    color_offset.setUniform1f("random", ofRandom(1));
+    color_offset.setUniform1f("random", ofRandom(0.1));
     color_offset.setUniform1i("time", ofGetFrameNum());
     fbo.draw(0, 0);
     color_offset.end();
@@ -77,10 +79,11 @@ void ofApp::update(){
     
     final.begin();
     pixel_shit.begin();
-    pixel_shit.setUniform1f("random", ofRandom(ofGetMouseY()/100.0));
+    pixel_shit.setUniform1f("random", fmod((ofGetFrameNum()/(slide_offset/10.0)+slide_offset), (float)HEIGHT));
     pong.draw(0,0);
     pixel_shit.end();
     final.end();
+
 
 }
 
@@ -159,7 +162,7 @@ void ofApp::loadImages(void){
     dir.listDir();
     
     //go through and print out all the paths
-    for(int i = 0; i < Max((int) dir.size(), MAX_IMAGES); i++){
+    for(int i = 0; i < min((int) dir.size(), MAX_IMAGES); i++){
         ofImage* img = new ofImage();
         img->load(dir.getPath(i));
         img->resize(ofGetWidth(), ofGetHeight());

@@ -2,9 +2,8 @@
 
 #include "ofMain.h"
 #include "ofxSyphon.h"
-#include "ofxThreadedImageLoader.h"
 
-#define ITERATIONS 40
+#define ITERATIONS 3
 #define SLICE_RANGE 420
 #define WIDTH 1920
 #define HEIGHT 1080
@@ -34,17 +33,10 @@ class ofApp : public ofBaseApp{
     
         ofFbo fbo, pong, final; // with alpha
         std::vector<ofImage*> images;
-        int index;
+        int index, slide_offset;
     
         ofShader color_offset, pixel_shit;
     
     	ofxSyphonServer individualTextureSyphonServer;
         ofxSyphonClient mClient;
-    
-        template<typename T>
-        T const& Max(T const& a, T const& b);
-
-        };
-
-template <typename T>
-inline T const& ofApp::Max(T const& a, T const& b){return a < b? a : b;}
+};
