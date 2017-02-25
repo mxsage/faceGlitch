@@ -2,11 +2,11 @@
 
 #include "ofMain.h"
 #include "ofxSyphon.h"
+#include "threadedLoader.h"
 
 #define ITERATIONS 3
 #define WIDTH 1920
 #define HEIGHT 1080
-#define MAX_IMAGES 20
 #define SYPHON 0
 #define PERIOD 10
 #define CYCLES 30
@@ -31,6 +31,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
         void loadImages(void);
+        void updateImages(void);
     
         ofFbo fbo, pong, final; // with alpha
         std::vector<ofImage*> images;
@@ -40,4 +41,8 @@ class ofApp : public ofBaseApp{
     
     	ofxSyphonServer individualTextureSyphonServer;
         ofxSyphonClient mClient;
+    
+        //ThreadedLoader loader;
+    
+        std::set<std::string> names;
 };

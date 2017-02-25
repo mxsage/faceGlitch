@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofSetFrameRate(60);
+    ofSetFrameRate(50);
     ofDisableDepthTest();
     
     ofEnableAlphaBlending();
@@ -19,7 +19,7 @@ void ofApp::setup(){
     /* load files */
     color_offset.load("shaders/glitch_1");
     pixel_shit.load("shaders/pixel_shit");
-    loadImages();
+    //loadImages();
     
     ofFbo::Settings s;
     s.width             = ofGetWidth();
@@ -42,10 +42,26 @@ void ofApp::setup(){
     pong.end();
     
     index = 0;
+    
+    /*
+    loader.start();
+    do {
+        updateImages();
+    } while (images.size() == 0);
+    */
+    
+    while (not images.size()){
+        updateImages();
+    }
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    if (ofGetFrameNum() % 300 == 0){
+        updateImages();
+    }
+    
     if (ofGetFrameNum() %  PERIOD == 0){
         if (cycle_count == 0){
             slice_range = 2000;
@@ -94,8 +110,6 @@ void ofApp::update(){
     pong.draw(0,0);
     pixel_shit.end();
     final.end();
-
-
 }
 
 //--------------------------------------------------------------
@@ -105,6 +119,47 @@ void ofApp::draw(){
     
     if (SYPHON){
         individualTextureSyphonServer.publishTexture(&final.getTexture());
+    }
+    
+}
+
+/*
+void ofApp::updateImages(void){
+    int new_images = loader.get_size();
+    if (new_images > images.size()){
+        vector<ofImage*> all_images = loader.get_pointers();
+        
+        for (int i=images.size(); i<new_images; i++){
+            all_images[i]->setUseTexture(true);
+            all_images[i]->update();
+            images.push_back(all_images[i]);
+        }
+    }
+    cout << images.size() << endl;
+}
+ */
+
+void ofApp::updateImages(void){
+    //some path, may be absolute or relative to bin/data
+    string path = "./faces";
+    ofDirectory dir(path);
+    
+    //only show jpg files
+    dir.allowExt("jpg");
+    //populate the directory object
+    dir.listDir();
+    
+    for(int i = 0; i < dir.size(); i++){
+        std::string fname = dir.getPath(i);
+        if (names.empty() or names.find(fname) == names.end()){
+            ofImage* img = new ofImage();
+            img->load(dir.getPath(i));
+            img->resize(ofGetWidth(), ofGetHeight());
+            
+            images.push_back(img);
+            names.insert(fname);
+            cout << "Loaded: " + ofToString(fname) + "." << endl;
+        }
     }
 }
 
@@ -173,7 +228,7 @@ void ofApp::loadImages(void){
     dir.listDir();
     
     //go through and print out all the paths
-    for(int i = 0; i < min((int) dir.size(), MAX_IMAGES); i++){
+    for(int i = 0; i < dir.size(); i++){
         ofImage* img = new ofImage();
         img->load(dir.getPath(i));
         img->resize(ofGetWidth(), ofGetHeight());
